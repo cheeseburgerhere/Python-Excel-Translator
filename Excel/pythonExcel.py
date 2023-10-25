@@ -5,13 +5,12 @@ import translators as ts
 def excelTranslator(excel_sheet: str, to_langCode : str, from_langCode : str, export=False, sheetName="Sheet1"): 
     df = pd.read_excel(excel_sheet)
 
-    for k in range(0,int(df.size/df.iloc[1].size)):
-        for i in range(0,df.iloc[1].size):
-            series=df.iloc[k]
-            word=series.iloc[i]
+    for k in range(0,df.columns.size):
+        for i in range(0,df.iloc[:,k].size):
+            word=df.iloc[i,k]
             if(type(word)==type('str')):
-                series.iloc[i]=ts.translate_text(query_text=word, to_language=to_langCode)
-   
+                df.iloc[i,k]=ts.translate_text(query_text=word, to_language=to_langCode)
+
     column_name=df.columns
       
     for i in range(0,df.iloc[0].size):
